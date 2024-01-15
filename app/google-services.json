@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "293064777540",
+    "project_id": "trinity-2b6e4",
+    "storage_bucket": "trinity-2b6e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293064777540:android:94ac12e1cdc6cedc908111",
+        "android_client_info": {
+          "package_name": "com.august.trinity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD16RL415Nu64JhdWvcxAfr5216xXF6g_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
