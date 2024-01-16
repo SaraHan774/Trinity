@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 /**
  * https://medium.com/@theAndroidDeveloper/yet-another-pitfall-in-jetpack-compose-you-must-be-aware-of-225a1d07d033
@@ -55,7 +56,7 @@ fun TestApp2(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun TestApp3(viewModel: TestViewModel) {
+fun TestApp3(viewModel: TestViewModel = viewModel<TestViewModel>()) {
     val counterValue = viewModel.currentCounterValue // state read
     // using remember with keys
     val isDivisible by remember(counterValue) {
