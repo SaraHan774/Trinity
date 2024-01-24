@@ -21,6 +21,7 @@ class ExampleUnitTest {
         assertEquals(4, 2 + 2)
     }
 
+    //https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/kotlinx.coroutines.test/-unconfined-test-dispatcher.html
     // Unconfined Dispatcher
     // tasks that it executes are not confined to any particular thread and for an event loop
     // it is different in that it skips delays, as all TestDispatchers do.
