@@ -1,6 +1,8 @@
 package com.august.trinity.interop
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
@@ -23,5 +25,17 @@ class InteropActivity : ComponentActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        binding.uiModel = TestPropertiesUIM(
+            clickRight = {
+                Toast.makeText(this, "Right", Toast.LENGTH_SHORT).show()
+                Log.d("Interop", "Right")
+            }
+        )
     }
 }
+
+data class TestPropertiesUIM(
+    val test: String = "Hello Trinity",
+    val clickRight: () -> Unit = {},
+)
