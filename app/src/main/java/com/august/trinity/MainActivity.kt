@@ -1,5 +1,6 @@
 package com.august.trinity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.august.trinity.gemini.GeminiTest
+import com.august.trinity.interop.InteropActivity
 import com.august.trinity.state.TestApp3
 import com.august.trinity.ui.theme.TrinityTheme
 
@@ -39,8 +41,8 @@ class MainActivity : ComponentActivity() {
                             navigateToDerivedStateTest = {
                                 navController.navigate("derivedStateTest")
                             },
-                            navigateGeminiTest = {
-                                navController.navigate("geminiTest")
+                            navigateInteropTest = {
+                                startActivity(Intent(this@MainActivity, InteropActivity::class.java))
                             }
                         )
                     }
@@ -49,9 +51,6 @@ class MainActivity : ComponentActivity() {
                         TestApp3()
                     }
 
-                    composable("geminiTest") {
-                        GeminiTest()
-                    }
                 }
             }
         }
@@ -62,7 +61,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Home(
     navigateToDerivedStateTest: () -> Unit = {},
-    navigateGeminiTest: () -> Unit = {}
+    navigateInteropTest: () -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
     Scaffold(
@@ -82,6 +81,9 @@ fun Home(
         ) {
             Button(onClick = navigateToDerivedStateTest) {
                 Text(text = "Derived State Test")
+            }
+            Button(onClick = navigateInteropTest) {
+                Text(text = "Interop Test")
             }
         }
     }
