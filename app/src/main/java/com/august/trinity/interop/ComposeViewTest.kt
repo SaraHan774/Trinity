@@ -9,7 +9,7 @@ class TestComposeView @JvmOverloads constructor(
     attrs: android.util.AttributeSet? = null,
     defStyleAttr: Int = 0,
 ) : AbstractComposeView(context, attrs, defStyleAttr) {
-
+//https://www.kodeco.com/31473074-interoperability-with-jetpack-compose
     @Composable
     override fun Content() {
         TODO("Not yet implemented")
