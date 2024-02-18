@@ -5,7 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,14 +19,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.august.trinity.gemini.GeminiTest
 import com.august.trinity.interop.InteropActivity
-import com.august.trinity.state.TestApp3
+import com.august.trinity.state.TestApp4
 import com.august.trinity.ui.theme.TrinityTheme
 
 
@@ -39,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     composable("home") {
                         Home(
                             navigateToDerivedStateTest = {
-                                navController.navigate("derivedStateTest")
+                                navController.navigate("composeTest")
                             },
                             navigateInteropTest = {
                                 startActivity(Intent(this@MainActivity, InteropActivity::class.java))
@@ -47,10 +49,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    composable("derivedStateTest") {
-                        TestApp3()
+                    composable("composeTest") {
+                        TestApp4()
                     }
-
                 }
             }
         }
@@ -76,11 +77,14 @@ fun Home(
     ) { innerPadding ->
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .verticalScroll(scrollState, true)
-                .padding(innerPadding)
+                .padding(innerPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Button(onClick = navigateToDerivedStateTest) {
-                Text(text = "Derived State Test")
+                Text(text = "Test")
             }
             Button(onClick = navigateInteropTest) {
                 Text(text = "Interop Test")
