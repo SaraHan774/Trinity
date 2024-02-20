@@ -5,12 +5,14 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.august.trinity.R
 import com.august.trinity.databinding.ActivityInteropBinding
 
-class InteropActivity : ComponentActivity() {
+class InteropActivity : AppCompatActivity() {
 
     val binding by lazy {
         ActivityInteropBinding.inflate(layoutInflater)
@@ -18,20 +20,14 @@ class InteropActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        val adapter = SomeListAdapter()
+        val rv = binding.recyclerView
+        rv.apply {
+            this.adapter = adapter
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@InteropActivity)
         }
-
-        binding.uiModel = TestPropertiesUIM(
-            clickRight = {
-                Toast.makeText(this, "Right", Toast.LENGTH_SHORT).show()
-                Log.d("Interop", "Right")
-            }
-        )
     }
 }
 
