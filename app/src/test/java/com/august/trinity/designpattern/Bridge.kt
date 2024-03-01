@@ -69,7 +69,6 @@ interface Infantry {
     fun shout(): String // interface 변경사항 추가 -> 구현하는 모든 클래스들을 수정해야 함
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 data class StormTrooper2(
     private val weapon: Weapon,
