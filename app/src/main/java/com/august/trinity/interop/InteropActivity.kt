@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.buildSpannedString
 import androidx.core.text.inSpans
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.august.trinity.R
 import com.august.trinity.databinding.ActivityInteropBinding
+import kotlin.math.round
 
 
 class InteropActivity : AppCompatActivity() {
@@ -31,14 +33,28 @@ class InteropActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@InteropActivity)
         }
 
+        val roundSpan = RoundedBackgroundSpan(
+            textColor = R.color.purple_700,
+            backgroundColor = R.color.purple_200
+        )
+
+        val roundCornerSpan = RoundCornerSpan(
+            backgroundColor = R.color.purple_700,
+            textColor = R.color.purple_200,
+            cornerRadius = 100f.toDp,
+            baselineShift = -binding.mainText.textSize.toDp/2
+        )
+
         binding.mainText.text = buildSpannedString {
             append("HELLO")
-            inSpans(
-                CenterVerticalSpan(),
-                AbsoluteSizeSpan(toPx(14, this@InteropActivity))
-            ) {
-                append("Not Available")
-            }
+                inSpans(
+                    // CenterVerticalSpan(), // the order matters.
+                    // 사이즈 변경 전에 호출하면 앞의 텍스트 사이즈를 받고, 변경 후에는 변경된 사이즈를 받는다
+                    AbsoluteSizeSpan(toPx(14, this@InteropActivity)),
+                    roundCornerSpan
+                ) {
+                        append("Not Available")
+                }
         }
     }
 }
@@ -53,7 +69,8 @@ class CenterVerticalSpan : MetricAffectingSpan() {
     }
 
     private fun getBaselineShift(tp: TextPaint): Int {
-        return -(tp.textSize.toDp / 2).toInt()
+        Log.d("===", "${tp.textSize.toDp}")
+        return -(tp.textSize.toDp/2).toInt()
     }
 }
 
@@ -69,3 +86,4 @@ data class TestPropertiesUIM(
 
 val Float.toDp: Float get() = this / Resources.getSystem().displayMetrics.density
 val Int.toDp: Float get() = this / Resources.getSystem().displayMetrics.density.toInt().toFloat()
+
