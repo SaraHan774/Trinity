@@ -1,34 +1,44 @@
 package com.august.trinity.state
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 
 /**
  * https://medium.com/@theAndroidDeveloper/yet-another-pitfall-in-jetpack-compose-you-must-be-aware-of-225a1d07d033
  */
 @Composable
-fun TestApp(viewModel: TestViewModel) {
+fun TestApp(viewModel: TestViewModel = viewModel()) {
     val counterValue = viewModel.currentCounterValue // state read from viewModel
     val isDivisible by remember {
         derivedStateOf { counterValue % 10 == 0 }
     } // 10 으로 나눌 수 있나 ?
+
     Column {
-        Text(text = "Counter: $counterValue")
-        Button(onClick = { viewModel.incrementCounter() }) {
-            Text(text = "Increment")
-        }
+//        Text(text = "Counter: $counterValue")
+//        Button(onClick = { viewModel.incrementCounter() }) {
+//            Text(text = "Increment")
+//        }
         // recompose scope
         // part of the UI tree that will get re-composed
-        Text(text = "Divisible by 10: $isDivisible")
+//        Text(text = "Divisible by 10: $isDivisible")
+
+        Button(onClick = { viewModel.sortList() }) {
+            Text(text = "Sort")
+        }
     }
 }
 
@@ -68,5 +78,13 @@ fun TestApp3(viewModel: TestViewModel = viewModel<TestViewModel>()) {
             Text(text = "Increment")
         }
         Text(text = "Divisible by 10: $isDivisible")
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        try {
+            viewModel.testAsync()
+        } catch (e: Exception) {
+            Log.d("===", "error~!")
+        }
     }
 }

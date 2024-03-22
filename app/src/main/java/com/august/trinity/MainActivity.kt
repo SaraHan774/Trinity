@@ -22,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.august.trinity.gemini.GeminiTest
+import com.august.trinity.state.TestApp
 import com.august.trinity.state.TestApp3
 import com.august.trinity.ui.theme.TrinityTheme
 
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("derivedStateTest") {
-                        TestApp3()
+                        TestApp()
                     }
 
                     composable("geminiTest") {
