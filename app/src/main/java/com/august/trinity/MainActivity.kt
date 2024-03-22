@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -16,14 +18,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.august.trinity.gemini.GeminiTest
-import com.august.trinity.state.TestApp
-import com.august.trinity.state.TestApp3
+import com.august.trinity.interop.InteropActivity
+import com.august.trinity.state.TestApp4
 import com.august.trinity.ui.theme.TrinityTheme
 
 
@@ -38,10 +40,15 @@ class MainActivity : ComponentActivity() {
                     composable("home") {
                         Home(
                             navigateToDerivedStateTest = {
-                                navController.navigate("derivedStateTest")
+                                navController.navigate("composeTest")
                             },
-                            navigateGeminiTest = {
-                                navController.navigate("geminiTest")
+                            navigateInteropTest = {
+                                startActivity(
+                                    Intent(
+                                        this@MainActivity,
+                                        InteropActivity::class.java
+                                    )
+                                )
                             }
                         )
                     }
@@ -49,52 +56,46 @@ class MainActivity : ComponentActivity() {
                     composable("derivedStateTest") {
                         TestApp()
                     }
-
-                    composable("geminiTest") {
-                        GeminiTest()
+                    composable("composeTest") {
+                        TestApp4()
                     }
                 }
             }
         }
     }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Home(
-    navigateToDerivedStateTest: () -> Unit = {},
-    navigateGeminiTest: () -> Unit = {}
-) {
-    val scrollState = rememberScrollState()
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary
-                ),
-                title = { Text(text = "Trinity") })
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .verticalScroll(scrollState, true)
-                .padding(innerPadding)
-        ) {
-            Button(onClick = navigateToDerivedStateTest) {
-                Text(text = "Derived State Test")
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun Home(
+        navigateToDerivedStateTest: () -> Unit = {},
+        navigateInteropTest: () -> Unit = {}
+    ) {
+        val scrollState = rememberScrollState()
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary
+                    ),
+                    title = { Text(text = "Trinity") })
+            }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState, true)
+                    .padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Button(onClick = navigateToDerivedStateTest) {
+                    Text(text = "Test")
+                }
+                Button(onClick = navigateInteropTest) {
+                    Text(text = "Interop Test")
+                }
             }
         }
     }
 }
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TrinityTheme {
-
-    }
-}
-// derivedStateOf
-// property delegate for compose state objects
