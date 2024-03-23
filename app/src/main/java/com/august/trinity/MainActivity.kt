@@ -27,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.august.trinity.interop.InteropActivity
 import com.august.trinity.state.TestApp4
+import com.august.trinity.test.TestApp5
 import com.august.trinity.ui.theme.TrinityTheme
 
 
@@ -45,12 +46,18 @@ class MainActivity : ComponentActivity() {
                             },
                             navigateInteropTest = {
                                 startActivity(Intent(this@MainActivity, InteropActivity::class.java))
+                            },
+                            navigateComposeTest1 = {
+                                navController.navigate("composeTest1")
                             }
                         )
                     }
 
                     composable("composeTest") {
                         TestApp4()
+                    }
+                    composable("composeTest1") {
+                        TestApp5()
                     }
                 }
             }
@@ -62,7 +69,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Home(
     navigateToDerivedStateTest: () -> Unit = {},
-    navigateInteropTest: () -> Unit = {}
+    navigateInteropTest: () -> Unit = {},
+    navigateComposeTest1: () -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
     Scaffold(
@@ -87,6 +95,9 @@ fun Home(
                 Text(text = "Test")
             }
             Button(onClick = navigateInteropTest) {
+                Text(text = "Interop Test")
+            }
+            Button(onClick = navigateComposeTest1) {
                 Text(text = "Interop Test")
             }
         }
