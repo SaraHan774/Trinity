@@ -5,10 +5,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.common.collect.ImmutableList
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -18,14 +19,22 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
-import kotlinx.coroutines.withContext
-import java.lang.IllegalStateException
-import kotlin.coroutines.coroutineContext
+
+
+private val myViewModelScope = CoroutineScope(
+    Dispatchers.Default +
+            SupervisorJob() +
+            CoroutineExceptionHandler { _, throwable ->
+                Log.d("=== error", "throwable = ${throwable.localizedMessage}")
+            }
+)
 
 /**
  * https://medium.com/@theAndroidDeveloper/yet-another-pitfall-in-jetpack-compose-you-must-be-aware-of-225a1d07d033
  */
-class TestViewModel : ViewModel() {
+class TestViewModel(
+    viewModelScope: CoroutineScope = myViewModelScope
+) : ViewModel(viewModelScope) {
 
     var currentCounterValue by mutableIntStateOf(0)
         private set
@@ -66,6 +75,7 @@ class TestViewModel : ViewModel() {
     }
 
     val viewModelDefaultScope by lazy { viewModelScope + Dispatchers.Default + defaultCoroutineErrorHandler }
+
     suspend fun testAsync() {
         try {
             coroutineScope {
