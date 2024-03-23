@@ -21,11 +21,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.august.trinity.interop.InteropActivity
+import com.august.trinity.state.TestApp
 import com.august.trinity.state.TestApp4
 import com.august.trinity.test.TestApp5
 import com.august.trinity.ui.theme.TrinityTheme
@@ -45,7 +45,12 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate("composeTest")
                             },
                             navigateInteropTest = {
-                                startActivity(Intent(this@MainActivity, InteropActivity::class.java))
+                                startActivity(
+                                    Intent(
+                                        this@MainActivity,
+                                        InteropActivity::class.java
+                                    )
+                                )
                             },
                             navigateComposeTest1 = {
                                 navController.navigate("composeTest1")
@@ -53,6 +58,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
+                    composable("derivedStateTest") {
+                        TestApp()
+                    }
                     composable("composeTest") {
                         TestApp4()
                     }
@@ -63,6 +71,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,6 +91,7 @@ fun Home(
                 ),
                 title = { Text(text = "Trinity") })
         }
+
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -97,20 +107,9 @@ fun Home(
             Button(onClick = navigateInteropTest) {
                 Text(text = "Interop Test")
             }
-            Button(onClick = navigateComposeTest1) {
-                Text(text = "Interop Test")
-            }
+        }
+        Button(onClick = navigateComposeTest1) {
+            Text(text = "Interop Test")
         }
     }
 }
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TrinityTheme {
-
-    }
-}
-// derivedStateOf
-// property delegate for compose state objects
